@@ -1,9 +1,7 @@
-package com.example.zzn.model;
-
-import jdk.nashorn.internal.objects.annotations.Getter;
-import jdk.nashorn.internal.objects.annotations.Setter;
+package com.appspring.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.io.Serializable;
 
 @Entity
@@ -17,6 +15,7 @@ public class Person implements Serializable {
     private Integer id;
 
     private String name;
+    @Min(value = 0,message = "error")
     private Integer age;
     private String address;
 

@@ -1,4 +1,4 @@
-package com.example.zzn;
+package com.appspring;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

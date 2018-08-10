@@ -1,4 +1,4 @@
-package com.example.zzn;
+package com.appspring;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
