@@ -1,10 +1,12 @@
 package com.appspring.aspect;
 
+import com.sun.xml.internal.ws.client.ResponseContext;
 import org.apache.tomcat.util.http.fileupload.RequestContext;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.omg.CORBA.portable.ResponseHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -30,10 +32,12 @@ public class HttpAspect {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
 
+
     }
 
     @After("log()")
     public void afterAction() {
         log.info("after");
+
     }
 }

@@ -13,6 +13,8 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.List;
 
+
+@CrossOrigin(origins = {"http://localhost:3000", "null"})
 @RestController
 public class UserController {
 
