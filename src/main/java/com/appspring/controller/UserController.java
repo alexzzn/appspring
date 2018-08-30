@@ -21,6 +21,7 @@ public class UserController {
 
     @Value("${version}")
     private String version;
+
     @Autowired
     private PersonRep personRep;
 
@@ -29,60 +30,82 @@ public class UserController {
         return "UserController.class " + version;
     }
 
-    @GetMapping("/person")
+    // 获取所有成员
+    @PostMapping("/person")
     public Object getPerson() {
 
         Object o = ResultUtil.success(personRep.findAll());
         return o;
     }
+    // 获取单个成员
+    @PostMapping("/onePerson")
+    public Object getPersonById(@RequestParam("id") Integer id) throws Exception {
 
-    @GetMapping("/person/{id}")
-    public Object getPersonById(@RequestParam("id") Long id) throws Exception {
+        Object p = personRep.findById(id);
+        if (p == null) {
 
-        PersonService p = new PersonService();
-        return p.getAge(id);
+            return  ResultUtil.error("没有数据");
+        }
+        return ResultUtil.success(p);
     }
 
-    @GetMapping("/add")
-    public Person addUser(@RequestParam(value = "name",defaultValue = "") String name,@RequestParam(value = "age",defaultValue = "0") Integer age) {
-        //        RequestParam("name") String name
+    // 通过age获取单个成员
+    @PostMapping("/onePersonByAge/{age}")
+    public Object searchAge(@PathVariable("age") Integer age) {
+
+        return ResultUtil.success(personRep.findByAge(age));
+    }
+    // 增加成员
+    @PostMapping("/add")
+    public Object addUser(
+
+            @RequestParam("age") Integer age,
+            @RequestParam("name") String name,
+            @RequestParam("adress") String adress) {
 
         Person p = new Person();
+        if (age ==null || name == null || adress == null) {
+
+            return ResultUtil.error("文本不能为空");
+        }
+
         p.setAge(age);
         p.setName(name);
+        p.setAddress(adress);
+        personRep.save(p);
 
-        return personRep.save(p);
+        return ResultUtil.success(p);
+    }
+    // 删除某个成员
+    @PostMapping("/remove")
+    public Object remove(@RequestParam(value = "cusId") Integer cusId) {
+
+        try {
+            personRep.deleteById(cusId);
+            return ResultUtil.success("true");
+        } catch (Exception e) {
+
+            return ResultUtil.error("false");
+        }
     }
 
+
     // 表单验证
-    @GetMapping("/addobj")
+    @PostMapping("/addVerify")
     public Person addObject(@Valid Person person, BindingResult result) {
 
         if (result.hasErrors()) {
             System.out.println(result.getFieldError());
             return null;
         }
+
         Person p = new Person();
         p.setAge(person.getAge());
         p.setName(person.getName());
+        p.setAddress("Zhengjiang Hangzhou");
 
         return personRep.save(p);
     }
-
-    @GetMapping("/remove/{id}")
-    public boolean remove(@PathVariable("id") Long id) {
-
-        personRep.deleteById(id);
-        return true;
-    }
-
-    @GetMapping("/age/{id}")
-    public boolean searchAge(@PathVariable("age") Integer age) {
-
-        personRep.findByAge(age);
-        return true;
-    }
-
     // 事务
     @Transactional
     @GetMapping("/test/transaction")

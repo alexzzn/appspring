@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface PersonRep extends JpaRepository<Person,Long> {
+public interface PersonRep extends JpaRepository<Person,Integer> {
 
     // 通过年龄查询
     public List<Person> findByAge(Integer age);

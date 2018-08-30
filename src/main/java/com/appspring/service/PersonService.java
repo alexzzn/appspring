@@ -13,7 +13,7 @@ public class PersonService {
     @Autowired
     private PersonRep personRep;
 
-    public Object  getAge(Long id) throws Exception {
+    public Object getAge(Integer id) throws Exception {
 
         Person p = personRep.getOne(id);
         if (p.getAge() < 18) {
