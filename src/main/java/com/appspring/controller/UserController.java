@@ -72,9 +72,18 @@ public class UserController {
         p.setAge(age);
         p.setName(name);
         p.setAddress(adress);
-        personRep.save(p);
 
-        return ResultUtil.success(p);
+        try {
+
+            personRep.save(p);
+            return ResultUtil.success(p);
+        } catch (Exception e) {
+
+            return ResultUtil.success(e.getMessage());
+        }
+
+
+
     }
     // 删除某个成员
     @PostMapping("/remove")
